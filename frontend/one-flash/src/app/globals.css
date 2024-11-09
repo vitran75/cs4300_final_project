@@ -15,3 +15,18 @@
 .RegisterButton:hover {
   background-color: #a20524;
 }
+
+.LoginButton {
+
+  background: none;
+  border: none;
+  color: #5B5858;
+  curser: pointer;
+  font-size: 16px;
+  text-decoration: underline;
+
+}
+
+.LoginButton:hover {
+  color: #a20524;
+}
