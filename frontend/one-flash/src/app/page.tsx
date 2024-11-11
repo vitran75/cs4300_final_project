@@ -1,8 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import RegisterButton from "./components/RegisterButton";
-import LoginButton from "./components/LoginButton";
 import FrontPageLayout from "./components/FrontPageLayout";
+import LoginPage from "./components/LoginPage";
 
 
 export default function Home() {

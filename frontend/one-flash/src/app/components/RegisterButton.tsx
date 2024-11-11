@@ -1,8 +1,13 @@
 import React from 'react';
 
-function RegisterButton() {
+
+interface LoginButtonProps {
+  onClick: unknown; 
+}
+
+function RegisterButton( {onClick} ) {
   return (
-   <button className="RegisterButton">Register</button>
+   <button className="RegisterButton" onClick={onClick}>Register</button>
   );
 }
 
