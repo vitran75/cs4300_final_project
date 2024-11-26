@@ -1,0 +1,103 @@
+/* FlashcardList.css */
+
+.flashcard-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    justify-content: center;
+}
+
+.flashcard {
+    width: 250px;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.flashcard:hover {
+    transform: scale(1.02);
+}
+
+.flashcard .question,
+.flashcard .answer {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.flashcard .question {
+    font-weight: bold;
+    color: #333;
+}
+
+.flashcard .answer {
+    color: #555;
+    font-style: italic;
+}
+
+.flashcard button {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.flashcard .edit-button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    margin-right: 0.5rem;
+}
+
+.flashcard .edit-button:hover {
+    background-color: #45a049;
+}
+
+.flashcard .delete-button {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+.flashcard .delete-button:hover {
+    background-color: #d32f2f;
+}
+
+/* Add Flashcard form styling */
+.add-flashcard-form {
+    margin: 1rem auto;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-flashcard-form input, 
+.add-flashcard-form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.add-flashcard-form button {
+    background-color: #2196F3; /* Blue */
+    color: white;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.add-flashcard-form button:hover {
+    background-color: #1976D2;
+}
