@@ -1,4 +1,6 @@
 import LoginForm from "@/components/LoginForm";
+import Homepage from "@/components/home/Homepage";
+
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "./api/auth/[...nextauth]/route";
@@ -10,7 +12,9 @@ export default async function Home() {
 
   return (
     <main>
-      <LoginForm />
+      {/* Render the Homepage component */}
+      <Homepage />
+      {/* Optionally, keep LoginForm or remove it */}
     </main>
   );
 }
