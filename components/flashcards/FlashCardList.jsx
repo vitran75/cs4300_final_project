@@ -8,58 +8,49 @@ const FlashcardList = ({userCreds}) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    // Fetch all flashcards when the component loads
+    // Fetch flashcards on component mount
     useEffect(() => {
         const fetchFlashcards = async () => {
             setLoading(true);
-            setError('');
+            setError("");
             try {
-                const email = "789"; // Replace with the actual user's email
-                const response = await fetch(`/api/getFlashcard?email=${encodeURIComponent(email)}`); // Pass email as query param
+                const response = await fetch("/api/getFlashcard");
                 if (!response.ok) {
-                    throw new Error('Failed to fetch flashcards');
+                    throw new Error("Failed to fetch flashcards");
                 }
                 const data = await response.json();
-                setFlashcards(data.flashcards); // Assuming API returns { flashcards: [...] }
+                setFlashcards(data.flashcards);
             } catch (err) {
-                setError(err.message || 'An error occurred');
+                setError(err.message || "An error occurred");
             } finally {
                 setLoading(false);
             }
         };
-    
+
         fetchFlashcards();
     }, []);
     
-
-    const storeFlashcard = async (newFlashcard) => {
+    const addFlashcard = async (newFlashcard) => {
         setLoading(true);
-        setError('');
+        setError("");
         try {
-            const email = "789"; // Replace with the actual user's email
-            const response = await fetch(`/api/addFlashcard?email=${encodeURIComponent(email)}`, {
-                method: 'POST',
+            const response = await fetch("/api/addFlashcard", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify(newFlashcard), // Only send the question and answer in the body
+                body: JSON.stringify(newFlashcard),
             });
             if (!response.ok) {
-                throw new Error('Failed to store flashcard');
+                throw new Error("Failed to add flashcard");
             }
-            const savedFlashcard = await response.json();
-            setFlashcards([...flashcards, savedFlashcard]); // Update state with the newly saved flashcard
+            const { flashcard } = await response.json();
+            setFlashcards([...flashcards, flashcard]);
         } catch (err) {
-            setError(err.message || 'An error occurred while storing the flashcard');
+            setError(err.message || "An error occurred while adding the flashcard");
         } finally {
             setLoading(false);
         }
-    };
-    
-    
-
-    const addFlashcard = (newFlashcard) => {
-        storeFlashcard(newFlashcard);
     };
 
     const editFlashcard = (id, updatedQuestion, updatedAnswer) => {
