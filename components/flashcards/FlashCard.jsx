@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const Flashcard = ({ id, question, answer, onEdit, onDelete }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -6,24 +6,28 @@ const Flashcard = ({ id, question, answer, onEdit, onDelete }) => {
     const [newAnswer, setNewAnswer] = useState(answer);
 
     const handleSave = () => {
-        onEdit(id, newQuestion, newAnswer); // Call the onEdit function passed from the parent
-        setIsEditing(false); // Exit edit mode
+        if (newQuestion.trim() === "" || newAnswer.trim() === "") {
+            alert("Question and Answer cannot be empty.");
+            return;
+        }
+        onEdit(id, newQuestion, newAnswer); 
+        setIsEditing(false); 
     };
 
     return (
         <div className="flashcard">
             {isEditing ? (
                 <>
-                    <input 
-                        type="text" 
-                        value={newQuestion} 
-                        onChange={(e) => setNewQuestion(e.target.value)} 
+                    <input
+                        type="text"
+                        value={newQuestion}
+                        onChange={(e) => setNewQuestion(e.target.value)}
                         placeholder="Edit question"
                     />
-                    <input 
-                        type="text" 
-                        value={newAnswer} 
-                        onChange={(e) => setNewAnswer(e.target.value)} 
+                    <input
+                        type="text"
+                        value={newAnswer}
+                        onChange={(e) => setNewAnswer(e.target.value)}
                         placeholder="Edit answer"
                     />
                     <button onClick={handleSave}>Save</button>
@@ -31,8 +35,8 @@ const Flashcard = ({ id, question, answer, onEdit, onDelete }) => {
                 </>
             ) : (
                 <>
-                    <p>{question}</p>
-                    <p>{answer}</p>
+                    <p><strong>Question:</strong> {question}</p>
+                    <p><strong>Answer:</strong> {answer}</p>
                     <button onClick={() => setIsEditing(true)}>Edit</button>
                     <button onClick={() => onDelete(id)}>Delete</button>
                 </>

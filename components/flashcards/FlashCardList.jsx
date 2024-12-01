@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import Flashcard from './Flashcard';
-import AddFlashcard from './AddFlashcard';
-import './FlashcardList.css';
+import React, { useState, useEffect } from "react";
+import Flashcard from "./Flashcard";
+import AddFlashcard from "./AddFlashcard";
+import "./FlashcardList.css";
 
-const FlashcardList = ({userCreds}) => {
+const FlashcardList = () => {
     const [flashcards, setFlashcards] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-
-    // Fetch flashcards on component mount
+    const [error, setError] = useState("");
+    
     useEffect(() => {
         const fetchFlashcards = async () => {
             setLoading(true);
@@ -29,7 +28,7 @@ const FlashcardList = ({userCreds}) => {
 
         fetchFlashcards();
     }, []);
-    
+
     const addFlashcard = async (newFlashcard) => {
         setLoading(true);
         setError("");
@@ -44,26 +43,63 @@ const FlashcardList = ({userCreds}) => {
             if (!response.ok) {
                 throw new Error("Failed to add flashcard");
             }
-            const { flashcard } = await response.json();
-            setFlashcards([...flashcards, flashcard]);
+            const { flashcard } = await response.json(); 
+            setFlashcards([...flashcards, flashcard]); 
         } catch (err) {
             setError(err.message || "An error occurred while adding the flashcard");
         } finally {
             setLoading(false);
         }
     };
-
-    const editFlashcard = (id, updatedQuestion, updatedAnswer) => {
-        const updatedFlashcards = flashcards.map((card) =>
-            card.id === id
-                ? { ...card, question: updatedQuestion, answer: updatedAnswer }
-                : card
-        );
-        setFlashcards(updatedFlashcards);
+    
+    //TODO
+    const editFlashcard = async (id, updatedQuestion, updatedAnswer) => {
+        setLoading(true);
+        setError("");
+        try {
+            const response = await fetch("/api/editFlashcard", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id,
+                    question: updatedQuestion,
+                    answer: updatedAnswer,
+                }),
+            });
+            if (!response.ok) {
+                throw new Error("Failed to edit flashcard");
+            }
+            const updatedFlashcards = flashcards.map((card) =>
+                card._id === id
+                    ? { ...card, question: updatedQuestion, answer: updatedAnswer }
+                    : card
+            );
+            setFlashcards(updatedFlashcards); 
+        } catch (err) {
+            setError(err.message || "An error occurred while editing the flashcard");
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const deleteFlashcard = (id) => {
-        setFlashcards(flashcards.filter((card) => card.id !== id));
+    const deleteFlashcard = async (id) => {
+        setLoading(true);
+        setError("");
+        try {
+            const response = await fetch(`/api/deleteFlashcard?id=${encodeURIComponent(id)}`, {
+                method: "DELETE",
+            });
+            if (!response.ok) {
+                throw new Error("Failed to delete flashcard");
+            }
+            setFlashcards(flashcards.filter((card) => card._id !== id));
+        } catch (err) {
+            setError(err.message || "An error occurred while deleting the flashcard");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -74,8 +110,8 @@ const FlashcardList = ({userCreds}) => {
             <div className="flashcard-list">
                 {flashcards.map((card) => (
                     <Flashcard
-                        key={card.id}
-                        id={card.id}
+                        key={card._id}
+                        id={card._id}
                         question={card.question}
                         answer={card.answer}
                         onEdit={editFlashcard}
