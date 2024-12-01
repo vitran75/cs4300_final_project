@@ -52,7 +52,6 @@ const FlashcardList = () => {
         }
     };
     
-    //TODO
     const editFlashcard = async (id, updatedQuestion, updatedAnswer) => {
         setLoading(true);
         setError("");
@@ -71,18 +70,19 @@ const FlashcardList = () => {
             if (!response.ok) {
                 throw new Error("Failed to edit flashcard");
             }
-            const updatedFlashcards = flashcards.map((card) =>
-                card._id === id
-                    ? { ...card, question: updatedQuestion, answer: updatedAnswer }
-                    : card
-            );
-            setFlashcards(updatedFlashcards); 
+            const { flashcard } = await response.json();
+    
+            // Update the state with the edited flashcard
+            setFlashcards(flashcards.map((card) =>
+                card._id === id ? { ...card, question: flashcard.question, answer: flashcard.answer } : card
+            ));
         } catch (err) {
             setError(err.message || "An error occurred while editing the flashcard");
         } finally {
             setLoading(false);
         }
     };
+    
 
     const deleteFlashcard = async (id) => {
         setLoading(true);
