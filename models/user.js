@@ -1,5 +1,17 @@
 import mongoose, { Schema, models } from "mongoose";
 
+// flashcard schema 
+const flashcardSchema = new Schema({
+  question: {
+    type: String,
+    required: true,
+  },
+  answer: {
+    type: String,
+    required: true, 
+  },
+});
+
 const userSchema = new Schema(
   {
     name: {
@@ -13,6 +25,10 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
+    },
+    flashcards: {
+      type: [flashcardSchema], // array of flashcard objects
+      default: [], // default has no cards
     },
   },
   { timestamps: true }
